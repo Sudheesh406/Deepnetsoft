@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import axios from "../../../Axios/Axios";
 import { GlobalContext } from "../../UseContext/GlobalProvider";
+import toast from "react-hot-toast";
 
 const CreateMenu = ({ setOpenModal, setIsOpenModal, menu }) => {
   const [menuDetails, setmenuDetails] = useState({
@@ -43,11 +44,13 @@ const CreateMenu = ({ setOpenModal, setIsOpenModal, menu }) => {
       const response = await axios.post("/menu", { data });
       if (response) {
         setMenus((prev) => [...prev, response.data.menu]);
+        toast.success("New Menu Created Successfully!");
         setIsOpenModal(false);
         setOpenModal(false);
       }
     } catch (error) {
       console.error(error);
+      toast.error("Something went wrong in Creating menu!");
     }
   };
 

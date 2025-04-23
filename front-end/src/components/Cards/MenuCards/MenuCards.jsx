@@ -7,17 +7,14 @@ import sideBanner from "../../../assets/images/menuLeftside.png";
 import { GlobalContext } from "../../UseContext/GlobalProvider";
 
 const MenuPreview = () => {
-  const [display, setDisplay] = useState([]);  // Initialize as an empty array
+  const [display, setDisplay] = useState([]); 
   const context = useContext(GlobalContext);
   const { items } = context;
 
   useEffect(() => {
-    const menuItems = items?.menuItems || []; // Ensure a fallback to an empty array
-    console.log(menuItems.menu,"dj")
+    const menuItems = items?.menuItems || []; 
     setDisplay(menuItems);
   }, [items]);
-
-  console.log(display);
 
   return (
     <div

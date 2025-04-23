@@ -3,13 +3,13 @@ import { IoMdClose } from "react-icons/io";
 import { GlobalContext } from "../../UseContext/GlobalProvider";
 import CreateMenuItem from "../../Modals/MenuModals/CreateMenu";
 import axios from "../../../Axios/Axios";
+import toast from "react-hot-toast";
 
 const CreateMenuItems = ({ setIsOpenModal }) => {
   const context = useContext(GlobalContext);
   const [openModal, setOpenModal] = useState(false);
-  const { menus,setItems ,items } = context;
+  const { menus,setItems } = context;
 
-  console.log("menus", menus);
   const [menu, setMenu] = useState({
     name: "",
     description: "",
@@ -27,13 +27,12 @@ const CreateMenuItems = ({ setIsOpenModal }) => {
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setMenu((prev) => ({ ...prev, [name]: value }));
-    setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error when field is changed
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const HandleModal = () => {
     setIsOpenModal(false);
   };
-console.log(items.menuItems)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,7 +51,8 @@ console.log(items.menuItems)
       let data = menu;
       let response = await axios.post("/menu", { data });
       if (response) {
-        console.log("response",response)
+        // console.log("response",response)
+        toast.success("Item Added Successfully!");
         setItems(prevItems => ({
           ...prevItems,
           menuItems: [...prevItems.menuItems, response.data.menu]
@@ -61,6 +61,7 @@ console.log(items.menuItems)
         setIsOpenModal(false);
       }
     } catch (error) {
+      toast.error("Something went wrong in Creating item!");
       console.error("error found in handleSubmit", error);
     }
   };
